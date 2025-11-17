@@ -1,72 +1,152 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <title>Study Buds</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Study Buds</title>
 
-        <!-- Bootstrap CSS v5.2.1 -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
-        />
-        <link
-            href="styles/tools.css"
-            rel="stylesheet"
-        />
-        <script src="tools.js" defer></script>
-    </head>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
-    <body>
-        <header class="container m-3">
-          <h1><span style="color: red">Study</span><span style="color:blue;">Buds</span></h1>
-        </header>
-        <main class="container m-3">
-          <nav>
-            <ul>
-              <a href="tools.html"><li id="main-items">Main Items</li></a>
-              <a href="stories.html"><li id="stories">Stories</li></a>
-              <a href="lumo_dress_up.html"><li id="dress_up">Dress Up Lumo!</li></a>
-              <a href="code-editor.html"><li id="coder">Let's Code in JavaScript!</li></a>
-              <a href="js-blog.html"><li id="js-blog">Let's learn about what JavaScript is!</li></a>
-            </ul>
-          </nav>
-          <a href="main daily.html" target="_blank">
-            <img src="Daily Quiz.png" alt="daily quiz" class="img-fluid" style="border-radius: 6px; border: 2px solid black;" width="600">
-          </a>
-          <br>
-          <br>
-          <div class="optional-container">
-            <a href="science.html" target="_blank">
-              <img src="Science.png" alt="science fun" class="img-fluid" style="border: 2px solid black; border-radius: 6px;" width="300">
-            </a>
-            <a href="english.html" target="_blank">
-              <img src="English.png" alt="english fun" class="img-fluid" style="border: 2px solid black; border-radius: 6px;" width="300">
-            </a>
-          </div>
-          <br>
-          <h2>Study Buds Back to School! 🎒</h2>
-          <iframe style="border: 5px solid;
-                         border-radius: 20px;" src="schedule.html" width="640" height="480"></iframe>
-        </main>
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"
-        ></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"
-        ></script>
-    </body>
+    header h1 {
+      font-size: 3rem;
+      font-weight: 600;
+      margin: 3rem 0 2rem 0;
+      color: #333;
+    }
+
+    /* Navigation links styled like buttons */
+    .nav-link-btn {
+      display: inline-block;
+      margin: 0.5rem;
+      padding: 0.8rem 2rem;
+      border-radius: 999px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      font-weight: 500;
+      transition: all 0.2s;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .nav-link-btn:hover {
+      background-color: #e0e0e0;
+    }
+
+    /* Featured images */
+    .featured, .optional-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .featured img, .optional-container img {
+      border-radius: 12px;
+      border: 2px solid #ccc;
+      transition: transform 0.2s, box-shadow 0.2s;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .featured img:hover, .optional-container img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Back to school section */
+    .back-to-school {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .back-to-school h2 {
+      font-size: 2rem;
+      text-align: center;
+      color: #333;
+    }
+
+    .beta-tag {
+      display: inline-block;
+      background-color: #ff4c4c;
+      color: white;
+      font-size: 0.6em;
+      font-weight: bold;
+      padding: 0.2em 0.6em;
+      margin-left: 0.5em;
+      border-radius: 12px;
+      vertical-align: middle;
+    }
+
+    iframe {
+      display: block;
+      margin: 2rem auto;
+      border: 5px solid #ccc;
+      border-radius: 20px;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Study Buds</h1>
+  </header>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="tools.html" class="nav-link-btn">Main Items</a>
+    <a href="stories.html" class="nav-link-btn">Stories</a>
+    <a href="lumo_dress_up.html" class="nav-link-btn">Dress Up Lumo!</a>
+    <a href="code-editor.html" class="nav-link-btn">Let's Code!</a>
+    <a href="js-blog.html" class="nav-link-btn">Learn JS</a>
+  </nav>
+
+  <!-- Daily Quiz -->
+  <div class="featured">
+    <a href="main daily.html" target="_blank">
+      <img src="Daily Quiz.png" alt="Daily Quiz" width="600">
+    </a>
+  </div>
+
+  <!-- Optional Fun Sections -->
+  <div class="optional-container">
+    <a href="science.html" target="_blank">
+      <img src="Science.png" alt="Science Fun" width="300">
+    </a>
+    <a href="english.html" target="_blank">
+      <img src="English.png" alt="English Fun" width="300">
+    </a>
+  </div>
+
+  <!-- Back to School Section -->
+  <div class="back-to-school">
+    <h2>Study Buds Back to School! 🎒 <span class="beta-tag">BETA</span></h2>
+  </div>
+
+  <!-- Schedule -->
+  <iframe src="schedule.html" width="640" height="480" title="Study Buds Schedule"></iframe>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" 
+          integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" 
+          integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+</body>
 </html>
-
