@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Study Buds AI Stage</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet"
+ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #f6f7fb;
+  color: #1f2937;
+  text-align: center;
+}
+
+header {
+  background: white;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+}
+
+.stage {
+  margin-top: 40px;
+}
+
+.ai {
+  background: white;
+  display: inline-block;
+  padding: 24px;
+  border-radius: 18px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+  width: 300px;
+}
+
+.ai-face {
+  font-size: 64px;
+}
+
+.controls {
+  margin-top: 20px;
+}
+
+button {
+  background: #eef2ff;
+  border: none;
+  color: #4338ca;
+  padding: 14px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #e0e7ff;
+}
+
+#log {
+  margin-top: 16px;
+  font-size: 14px;
+  min-height: 40px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>🎙️ Study Buds AI Assistant</h2>
+</header>
+
+<div class="stage">
+  <div class="ai">
+    <div class="ai-face">🤖</div>
+    <p><b>Study Bot</b></p>
+    <div id="log">Click the mic and talk!</div>
+
+    <div class="controls">
+      <button onclick="startListening()" title="Talk">
+        <i class="fa-solid fa-microphone"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const log = document.getElementById("log");
+
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+
+const recognition = new SpeechRecognition();
+recognition.lang = "en-US";
+
+recognition.onresult = e => {
+  const text = e.results[0][0].transcript;
+  log.textContent = "You said: " + text;
+  reply(text);
+};
+
+function startListening() {
+  log.textContent = "Listening... 🎤";
+  recognition.start();
+}
+
+function reply(text) {
+  let response = "Let's study together!";
+
+  if (text.includes("math"))
+    response = "Math time! Want addition, fractions, or word problems?";
+  else if (text.includes("tired"))
+    response = "Take a deep breath. You are doing great.";
+  else if (text.includes("hello"))
+    response = "Hi User! Ready to study?";
+  else if (text.includes("time"))
+    response = "Focus for 25 minutes. Pomodoro style!";
+  else if (text.includes("music"))
+    response = "Music helps focus. Lo-fi is awesome.";
+
+  speak(response);
+}
+
+function speak(text) {
+  const msg = new SpeechSynthesisUtterance(text);
+  msg.rate = 1;
+  msg.pitch = 1.4;
+  speechSynthesis.speak(msg);
+}
+</script>
+
+</body>
+</html>

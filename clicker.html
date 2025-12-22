@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ice Clicker Deluxe ❄️🍦</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/* BODY */
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #e0f2fe;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* POPUP */
+.popup {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.2);
+  width: 360px;
+  text-align: center;
+  padding: 24px;
+  z-index: 9999;
+}
+
+/* ICE + ICE CREAM */
+.ice-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.ice {
+  font-size: 100px;
+  transition: transform 0.2s;
+}
+
+.ice:hover { transform: rotate(15deg); }
+
+.ice-cream {
+  position: absolute;
+  bottom: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  transition: font-size 0.3s;
+}
+
+/* SCORE */
+.score { font-size: 20px; margin-top: 10px; }
+
+/* BUTTONS */
+button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: #38bdf8;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* HTML POPUPS */
+.html-popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fef3c7;
+  color: #78350f;
+  padding: 14px 24px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.2);
+  z-index: 10000;
+  display: none;
+  font-weight: bold;
+  animation: popupShow 0.3s;
+}
+@keyframes popupShow { from {opacity:0; transform: translate(-50%, -50%) scale(0.5);} to {opacity:1; transform:translateX(-50%) scale(1);} }
+
+/* PARENT MODE */
+.parent-box { margin-top: 16px; display: flex; flex-direction: column; align-items: center; }
+.parent-box label { margin-bottom: 6px; font-weight: bold; }
+
+/* CLEAN SLIDER */
+.parent-box input[type=range] {
+  -webkit-appearance: none;
+  width: 80%;
+  height: 12px;
+  border-radius: 6px;
+  background: #e5e7eb;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.parent-box input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fcd34d;
+  border: 2px solid #b45309;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.parent-box input[type=range]:active::-webkit-slider-thumb { transform: scale(1.2); }
+
+/* POPUP BOXES */
+.popup-box {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.2);
+  padding: 20px;
+  width: 300px;
+  z-index: 10001;
+  display: none;
+  text-align: center;
+}
+.popup-box input { width: 90%; margin-top: 8px; padding: 6px; border-radius: 6px; border:1px solid #cbd5f5; }
+.popup-box button { margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<!-- MAIN POPUP -->
+<div class="popup" id="popup">
+  <h2>❄️ Ice Clicker Deluxe</h2>
+  <div class="ice-container" onclick="clickIce()">
+    <div class="ice" id="ice">🧊</div>
+    <div class="ice-cream" id="iceCream">🍦</div>
+  </div>
+
+  <div class="score">Points: <b id="points">0</b></div>
+
+  <!-- PARENT MODE -->
+  <div class="parent-box">
+    <label>Parent Mode: Ice Cream Size</label>
+    <input type="range" id="iceSlider" min="0" max="5" step="1" value="0" oninput="updateIceCream()">
+    <button onclick="giveIceCream()">🍦 Reward Ice Cream</button>
+    <button onclick="openAddQuestion()">Add Question</button>
+  </div>
+</div>
+
+<!-- QUESTION POPUP -->
+<div class="popup-box" id="questionPopup">
+  <p id="questionText"></p>
+  <input id="answerInput" placeholder="Your answer">
+  <button onclick="checkAnswer()">Answer</button>
+</div>
+
+<!-- ADD QUESTION POPUP -->
+<div class="popup-box" id="addQuestionPopup">
+  <h3>📝 Add Question</h3>
+  <input id="newQ" placeholder="Question">
+  <input id="newA" placeholder="Answer">
+  <button onclick="addQuestion()">Add</button>
+</div>
+
+<!-- HTML POPUP -->
+<div class="html-popup" id="popupMsg"></div>
+
+<script>
+// STATE
+let points = 0;
+let iceCreamLevel = 0;
+let currentAnswer = "";
+
+// Load questions from localStorage
+let questions = JSON.parse(localStorage.getItem("iceQuestions")) || [
+  { q: "5 + 3 = ?", a: "8" },
+  { q: "10 - 4 = ?", a: "6" }
+];
+
+// CLICK ICE
+function clickIce() {
+  points += 1;
+  updateScore();
+
+  // Rotate animation
+  const ice = document.getElementById("ice");
+  ice.style.transform = `rotate(${Math.random()*30-15}deg)`;
+  setTimeout(()=> ice.style.transform='rotate(0deg)',200);
+
+  // Random question 30%
+  if(Math.random()<0.3) openQuestion();
+}
+
+// UPDATE SCORE
+function updateScore() { document.getElementById("points").textContent = points; }
+
+// OPEN QUESTION POPUP
+function openQuestion(){
+  const q = questions[Math.floor(Math.random()*questions.length)];
+  currentAnswer = q.a.toLowerCase();
+  document.getElementById("questionText").textContent = "🧠 Ice Question! " + q.q;
+  document.getElementById("answerInput").value = "";
+  document.getElementById("questionPopup").style.display = "block";
+}
+
+// CHECK ANSWER
+function checkAnswer(){
+  const ans = document.getElementById("answerInput").value.toLowerCase().trim();
+  document.getElementById("questionPopup").style.display = "none";
+  if(ans === currentAnswer){ points +=5; showPopup("✅ Correct! +5 points!"); }
+  else showPopup("❌ Wrong! No bonus.");
+  updateScore();
+}
+
+// ICE CREAM
+function updateIceCream(){
+  iceCreamLevel = document.getElementById("iceSlider").value;
+  document.getElementById("iceCream").style.fontSize = 20 + iceCreamLevel*10 + "px";
+}
+function giveIceCream(){
+  points += 10;
+  iceCreamLevel = Math.min(iceCreamLevel+1,5);
+  updateIceCream();
+  updateScore();
+  showPopup("🍦 Ice Cream Reward! +10 points");
+}
+
+// ADD QUESTION POPUP
+function openAddQuestion(){ document.getElementById("addQuestionPopup").style.display="block"; }
+function addQuestion(){
+  const q = document.getElementById("newQ").value.trim();
+  const a = document.getElementById("newA").value.trim();
+  if(q && a){
+    questions.push({q,a});
+    localStorage.setItem("iceQuestions",JSON.stringify(questions));
+    showPopup("📝 Question added!");
+    document.getElementById("newQ").value="";
+    document.getElementById("newA").value="";
+    document.getElementById("addQuestionPopup").style.display="none";
+  }
+}
+
+// HTML POPUP
+function showPopup(msg){
+  const popup = document.getElementById("popupMsg");
+  popup.textContent = msg;
+  popup.style.display="block";
+  setTimeout(()=> popup.style.display="none",1500);
+}
+</script>
+
+</body>
+</html>
