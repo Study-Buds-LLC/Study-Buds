@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Study Buds Worksheets</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f4f6;
+}
+
+/* PRIMARY NAV */
+.primary-nav {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  background: white;
+  border-bottom: 2px solid #e5e7eb;
+  overflow-x: auto;
+}
+
+.primary-nav button {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: white;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.primary-nav button.active {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+/* SUBJECT TABS */
+.subject-tabs {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.subject-tabs button {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: white;
+  cursor: pointer;
+}
+
+.subject-tabs button.active {
+  background: #16a34a;
+  color: white;
+  border-color: #16a34a;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card-top {
+  height: 110px;
+  background: #fde68a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.card-mid {
+  background: #fb923c;
+  color: white;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.card-bottom {
+  padding: 10px;
+}
+
+.level {
+  background: #fdba74;
+  color: white;
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<!-- PRIMARY NAV -->
+<div class="primary-nav">
+  <button class="active" onclick="setPrimary(1, this)">Primary 1</button>
+  <button onclick="setPrimary(2, this)">Primary 2</button>
+  <button onclick="setPrimary(3, this)">Primary 3</button>
+  <button onclick="setPrimary(4, this)">Primary 4</button>
+  <button onclick="setPrimary(5, this)">Primary 5</button>
+  <button onclick="setPrimary(6, this)">Primary 6</button>
+</div>
+
+<!-- SUBJECT NAV -->
+<div class="subject-tabs">
+  <button class="active" onclick="setSubject('math', this)">Math</button>
+  <button onclick="setSubject('science', this)">Science</button>
+  <button onclick="setSubject('english', this)">English</button>
+  <button onclick="setSubject('chinese', this)">Chinese</button>
+</div>
+
+<!-- GRID -->
+<div class="grid" id="grid"></div>
+
+<script>
+let currentPrimary = 1;
+let currentSubject = "math";
+
+const data = {
+  math: [
+    { icon: "➕", title: "Addition Within 10" },
+    { icon: "➖", title: "Subtraction Within 10" },
+    { icon: "🔢", title: "Numbers & Counting" },
+    { icon: "🔺", title: "Shapes & Patterns" }
+  ],
+  science: [
+    { icon: "🌱", title: "Living Things" },
+    { icon: "☀️", title: "Weather" },
+    { icon: "💧", title: "Water & States" }
+  ],
+  english: [
+    { icon: "🔤", title: "Alphabet Practice" },
+    { icon: "📖", title: "Simple Sentences" },
+    { icon: "🖊️", title: "Spelling" }
+  ],
+  chinese: [
+    { icon: "汉", title: "Basic Characters" },
+    { icon: "🗣️", title: "Pinyin Practice" },
+    { icon: "📘", title: "Simple Words" }
+  ]
+};
+
+function setPrimary(p, btn) {
+  currentPrimary = p;
+  document.querySelectorAll(".primary-nav button")
+    .forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  render();
+}
+
+function setSubject(sub, btn) {
+  currentSubject = sub;
+  document.querySelectorAll(".subject-tabs button")
+    .forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  render();
+}
+
+function render() {
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+
+  data[currentSubject].forEach(w => {
+    grid.innerHTML += `
+      <div class="card" onclick="alert('Open ${w.title} - Primary ${currentPrimary}')">
+        <div class="card-top">${w.icon}</div>
+        <div class="card-mid">ESSENTIAL SKILLS</div>
+        <div class="card-bottom">
+          <div class="level">Primary ${currentPrimary}</div>
+          <div class="title">${w.title}</div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+/* initial render */
+render();
+</script>
+
+</body>
+</html>
