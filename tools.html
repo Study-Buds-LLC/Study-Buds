@@ -309,7 +309,7 @@ iframe {
       <p>This is a BETA feature</p>
       <button onclick="betaDia.close()">&times; Close</button>
     </dialog>
-    <dialog class="errorMsg" open="true">
+    <dialog class="errorMsg">
       <img src="error_pic.png" alt="Water dripping on the head of Lumo">
       <h1>Oops! An Error Occurred!</h1>
       <p>Water's Dripping All Over Lumo's Head!</p>
@@ -419,7 +419,12 @@ window.addEventListener('load', () => {
     }, 500);
   }, remaining > 0 ? remaining : 0);
 });
-
+// Error Check (If yes then show modal)
+window.addEventListener('error', (event) => {
+  const errorMsgDialog = document.querySelector('.errorMsg');
+  errorMsgDialog.querySelector('p').textContent = event.message;
+  errorMsgDialog.showModal();
+});
 </script>
 </body>
 </html>
